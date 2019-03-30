@@ -2,8 +2,8 @@
 
 from flask import Flask
 from flask import request
+from flask import jsonify
 import pymysql
-import sys
 import config
 
 app = Flask(__name__)
@@ -16,12 +16,21 @@ connection = pymysql.connect(host='127.0.0.1',
                              port=3307,
                              user=db_user,
                              password=db_password,
-                             db=db_name)
-#sys.exitfunc = connection.close()
+                             db=db_name,
+                             cursorclass=pymysql.cursors.DictCursor)
 
 def GetEmissions(company):
-    #TODO: db stuff
-    return 'todo'
+    try:
+        with connection.cursor() as cursor:
+            sql = "SELECT * FROM Company WHERE Name LIKE %s"
+            cursor.execute(sql, [company])
+            result = cursor.fetchone()
+            return result
+    except Exception as ex:
+        print("Error: {}".format(ex))
+        return ex
+    finally:
+        cursor.close()
 
 @app.route('/company', methods=['GET'])
 def GetProductInfo():
@@ -29,5 +38,12 @@ def GetProductInfo():
     print('Company: {}'.format(company)) #DEBUG
     emissions = GetEmissions(company)
     print('Emissions: {}'.format(emissions)) #DEBUG
-    return company
+    if emissions is None:
+        error = {
+                'error': 404,
+                'message': 'Company not found'
+                }
+        return jsonify(error)
+    else:
+        return jsonify(emissions)
 
