@@ -1,9 +1,25 @@
+#!/usr/bin/python3
+
 from flask import Flask
 from flask import request
+import pymysql
 import scrapy #TODO: Why not beautiful soup?
+import sys
+import config
 #scrapy runspider scraper.py
 
 app = Flask(__name__)
+
+db_name = config.database_name
+db_user = config.database_user
+db_password = config.database_password
+
+connection = pymysql.connect(host='127.0.0.1',
+                             port=3307,
+                             user=db_user,
+                             password=db_password,
+                             db=db_name)
+sys.exitfunc = connection.close()
 
 class BrickSetSpider(scrapy.Spider):
     name = 'spider'
@@ -25,19 +41,29 @@ class BrickSetSpider(scrapy.Spider):
         return byinfoName
 
 def GetCompany(product):
-    # something
+    cursor = connection.cursor()
+    sql = "SELECT * FROM Brand WHERE Name like %S"
+    cursor.execute(sql, (product,))
+    result = cursor.fetchone()
+    print(result)
+    return result
 
 def GetCompanyEmissions(company):
-    # other thing
+    #TODO
+    return 0
 
 @app.route('/product', methods=['GET'])
 def GetProductInfo():
     url = request.args.get('url')
     scrape = BrickSetSpider(url)
+    
+    #DEBUG
+    GetCompany('banana')
 
     #TODO: Where does response come from?
     response = []
     product_name = scrape.parse(response)
     company = GetCompany(product_name)
-    return GetCompanyEmissions(return)
+#    return GetCompanyEmissions(return)
+    return company
 
