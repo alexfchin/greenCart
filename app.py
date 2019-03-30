@@ -19,7 +19,7 @@ connection = pymysql.connect(host='127.0.0.1',
                              user=db_user,
                              password=db_password,
                              db=db_name)
-sys.exitfunc = connection.close()
+#sys.exitfunc = connection.close()
 
 class BrickSetSpider(scrapy.Spider):
     name = 'spider'
@@ -41,29 +41,32 @@ class BrickSetSpider(scrapy.Spider):
         return byinfoName
 
 def GetCompany(product):
-    cursor = connection.cursor()
-    sql = "SELECT * FROM Brand WHERE Name like %S"
-    cursor.execute(sql, (product,))
-    result = cursor.fetchone()
-    print(result)
-    return result
+    try:
+        cursor = connection.cursor()
+        sql = "SELECT * FROM Brand WHERE Name like %s"
+        cursor.execute(sql, [product])
+        result = cursor.fetchone()
+        print('Result: {}'.format(result)) #DEBUG
+        return result
+    except Exception as ex:
+        print('Error: {}'.format(ex)) #DEBUG
+        return 'error'
 
 def GetCompanyEmissions(company):
     #TODO
-    return 0
+    return 'todo'
 
 @app.route('/product', methods=['GET'])
 def GetProductInfo():
-    url = request.args.get('url')
-    scrape = BrickSetSpider(url)
-    
-    #DEBUG
-    GetCompany('banana')
+    GetCompany('banana') #DEBUG
 
-    #TODO: Where does response come from?
-    response = []
-    product_name = scrape.parse(response)
+    url = request.args.get('url')
+    print('URL: {}'.format(url)) #DEBUG
+    scrape = BrickSetSpider(url)
+    product_name = scrape.parse()
+    print('Product: {}'.format(product_name)) #DEBUG
     company = GetCompany(product_name)
+    print('Company: {}'.format(company)) #DEBUG
 #    return GetCompanyEmissions(return)
     return company
 
