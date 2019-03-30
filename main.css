@@ -2,3 +2,7 @@ body {
   display: inline-block;
   width: 300px;
 }
+
+#productImage {
+  width: 100%;
+}
