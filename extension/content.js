@@ -51,3 +51,14 @@ function setModal() {
   document.body.appendChild(newerDiv);
 }
 
+chrome.tabs.getSelected(null, function(tab) {
+	let tabId = tab.id;
+	let tabUrl = tab.utl;
+	console.log(tabUrl);
+});
+
+chrome.runtime.onMessage.addListener(
+	let companyName = document.getElementById('bylineInfo');
+	console.log(companyName);
+);
+
