@@ -16,4 +16,3 @@ class BrickSetSpider(scrapy.Spider):
         print(byinfoName.capitalize())
         return byinfoName
 
-
