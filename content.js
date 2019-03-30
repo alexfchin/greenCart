@@ -1,10 +1,9 @@
-chrome.tabs.getSelected(null, function(tab) {
-    var tabId = tab.id;
-    var tabUrl = tab.url;
-		alert(tabUrl);
-});
-
+var brandname = document.getElementById('bylineInfo').innerHTML;
 chrome.runtime.onMessage.addListener(
-  var companyName = document.getElementById('bylineInfo');
-  alert(companyName);
-);
+  function(request, sender, sendResponse) {
+    console.log(sender.tab ?
+                "from a content script:" + sender.tab.url :
+                "from the extension");
+    if (request.greeting == "hello")
+      sendResponse({farewell: brandname});
+  });
