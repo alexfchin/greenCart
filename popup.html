@@ -2,19 +2,42 @@
   <html>
     <head>
       <style>
-        button {
-          height: 30px;
-          width: 30px;
-          outline: none;
-        }
       </style>
       <link rel="stylesheet" href="main.css">
       <script src="popup.js"></script>
     </head>
-    <h1>Welcome to Green Cart</h1>
+      <div id = "titleDiv">
+        <h1 >Welcome to Green Basket</h1>
+        <h3>Here is your product and its environmental rating:</h3>
+      </div>
     <body>
-      <h2 id = "productBrand">No Product Brand Found</h2>
-      <h2 id = "productName">No Product Name Found</h2>
-      <img id = "productImage" src = "sad_cat.png"></img>
+      <div class="productDiv">
+        <h2 class = "brand" id = "productBrand">No product brand found</h2>
+        <h2 id = "productName">No product name found</h2>
+        <img class = "image" id = "productImage" src = "sad_cat.png"></img>
+
+        <h2 class = "envirorating">Environmental Rating: </h2>
+
+        <span class = "rating">
+          <img class = "ratingIcon" src = "images/ratingA.png"></img>
+          <h1 class="ratingGrade" id = "productRating">A</h1>
+        </span>
+
+
+      </div>
+
+      <!-- <div class="productDiv">
+        <h2 class = "brand" id = "compareBrand">No product brand found</h2>
+        <h2 id = "compareName">No product name found</h2>
+        <img class = "image" id = "compareImage" src = "sad_cat.png"></img>
+
+        <h2 class = "envirorating">Environmental Rating: </h2>
+
+        <span class = "rating">
+          <img class = "ratingIcon" src = "images/ratingNA.png"></img>
+          <h1 class="ratingGrade" id = "compareRating">N/A</h1>
+        </span> -->
+
+      </div>
     </body>
   </html>
