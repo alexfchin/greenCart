@@ -1,17 +1,18 @@
 {
   "manifest_version": 2,
-  "name": "Green Cart",
-  "version": "0.1",
+  "name": "greenCart",
+  "description": "Know the truth behind how green the companies you are buying from really are.",
+  "version": "0.2",
 
   "permissions": ["declarativeContent", "storage", "activeTab","tabs"],
 
   "content_scripts": [
   {
     "matches": [
-      "https://www.amazon.com/gp/cart/view.html?ref_=nav_cart"
+      "https://www.amazon.com/*"
     ],
     "css": ["main.css"],
-    "js": ["content.js"]
+    "js": ["jquery-3.3.1.min.js","content.js"]
   }
   ],
 
