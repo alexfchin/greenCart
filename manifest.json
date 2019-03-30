@@ -2,9 +2,9 @@
   "manifest_version": 2,
   "name": "greenCart",
   "description": "Know the truth behind how green the companies you are buying from really are.",
-  "version": "0.2",
+  "version": "0.3",
 
-  "permissions": ["declarativeContent", "storage"],
+  "permissions": ["declarativeContent", "storage","activeTab"],
 
   "content_scripts": [
   {
