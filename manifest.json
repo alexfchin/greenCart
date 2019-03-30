@@ -1,0 +1,19 @@
+{
+  "manifest_version": 2,
+  "name": "My Cool Extension",
+  "version": "0.1",
+
+  "content_scripts": [
+  {
+    "matches": [
+      "https://www.amazon.com/gp/cart/view.html?ref_=nav_cart"
+    ],
+    "js": ["content.js"]
+  }
+  ],
+
+  "page_action": {
+    "default_popup": "popup.html",
+    "default_title": "Custom page"
+  }
+}
