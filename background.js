@@ -12,6 +12,3 @@ chrome.runtime.onInstalled.addListener(function() {
       }]);
     });
   });
-
-
-//id = bylineInfo

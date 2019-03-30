@@ -1,10 +1,9 @@
-chrome.tabs.getSelected(null, function(tab) {
-    var tabId = tab.id;
-    var tabUrl = tab.url;
-		alert(tabUrl);
-});
-
 chrome.runtime.onMessage.addListener(
-  var companyName = document.getElementById('bylineInfo');
-  alert(companyName);
+  function(request, sender, sendResponse) {
+    if( request.message === "clicked_browser_action" ) {
+      var firstHref = $("a[href^='http']").eq(0).attr("href");
+
+      console.log(firstHref);
+    }
+  }
 );
