@@ -3,7 +3,9 @@
 from flask import Flask
 from flask import request
 import pymysql
-import scrapy #TODO: Why not beautiful soup?
+import scrapy
+from bs4 import BeautifulSoup
+import requests
 import sys
 import config
 #scrapy runspider scraper.py
@@ -14,11 +16,11 @@ db_name = config.database_name
 db_user = config.database_user
 db_password = config.database_password
 
-connection = pymysql.connect(host='127.0.0.1',
-                             port=3307,
-                             user=db_user,
-                             password=db_password,
-                             db=db_name)
+#connection = pymysql.connect(host='127.0.0.1',
+#                             port=3307,
+#                             user=db_user,
+#                             password=db_password,
+#                             db=db_name)
 #sys.exitfunc = connection.close()
 
 class BrickSetSpider(scrapy.Spider):
@@ -40,17 +42,14 @@ class BrickSetSpider(scrapy.Spider):
         print(byinfoName.capitalize())
         return byinfoName
 
-def GetCompany(product):
-    try:
-        cursor = connection.cursor()
-        sql = "SELECT * FROM Brand WHERE Name like %s"
-        cursor.execute(sql, [product])
-        result = cursor.fetchone()
-        print('Result: {}'.format(result)) #DEBUG
-        return result
-    except Exception as ex:
-        print('Error: {}'.format(ex)) #DEBUG
-        return 'error'
+#TODO: Added headers
+def GetCompany(url):
+    SET_SELECTOR = '#bylineInfo'
+    page = requests.post(url)
+    print(page)
+    soup = BeautifulSoup(url, 'html.parser')
+    company = soup.find('a', {'id': SET_SELECTOR})
+    return company
 
 def GetCompanyEmissions(company):
     #TODO
@@ -58,14 +57,10 @@ def GetCompanyEmissions(company):
 
 @app.route('/product', methods=['GET'])
 def GetProductInfo():
-    GetCompany('banana') #DEBUG
-
+#    GetCompany('banana') #DEBUG
     url = request.args.get('url')
     print('URL: {}'.format(url)) #DEBUG
-    scrape = BrickSetSpider(url)
-    product_name = scrape.parse()
-    print('Product: {}'.format(product_name)) #DEBUG
-    company = GetCompany(product_name)
+    company = GetCompany(url)
     print('Company: {}'.format(company)) #DEBUG
 #    return GetCompanyEmissions(return)
     return company
