@@ -3,13 +3,14 @@
   "name": "Green Cart",
   "version": "0.1",
 
-  "permissions": ["declarativeContent", "storage"],
+  "permissions": ["declarativeContent", "storage", "activeTab","tabs"],
 
   "content_scripts": [
   {
     "matches": [
       "https://www.amazon.com/gp/cart/view.html?ref_=nav_cart"
     ],
+    "css": ["main.css"],
     "js": ["content.js"]
   }
   ],
