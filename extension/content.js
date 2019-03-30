@@ -51,14 +51,17 @@ function setModal() {
   document.body.appendChild(newerDiv);
 }
 
-chrome.tabs.getSelected(null, function(tab) {
-	let tabId = tab.id;
-	let tabUrl = tab.utl;
-	console.log(tabUrl);
-});
-
+let brand = document.getElementById('bylineInfo').innerHTML;
+let name = document.getElementById('productTitle').innerHTML;
+let image = document.getElementById('landingImage').src;
 chrome.runtime.onMessage.addListener(
-	let companyName = document.getElementById('bylineInfo');
-	console.log(companyName);
+	function(request, sender, sendResponse) {
+		console.log(sender.tab ?
+			"from a content script:" + sender.tab.url :
+			"from the extension");
+
+		if (request.greeting == "hello")
+			sendResponse({productBrand: brand, productName: name, productImage: image});
+	}
 );
 
